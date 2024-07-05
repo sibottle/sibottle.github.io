@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <html lang="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="Church Game" property="og:title" />
+  <meta content="Church Game.. It is a place where Everyone- Christians, Catholics, anyone
+    all take a break to play games, watch videos, and many more. Even if you're not one of the people mentioned
+    above, it is not too late! God accepts everyone including sinners." property="og:description" />
+  <meta content="https://church-game.web.app/" property="og:url" />
+  <meta content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG_HTAaty8nqJ94Lnfutg0Z5fvR7TCDYE8vrCb1uK3ZQ&s"
+    property="og:image" />
+  <meta content="#ffdd00" data-react-helmet="true" name="theme-color" />
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <title>Church Game</title>
+</head>
+
+<script>
+  function includeHTML() {
+    var z, i, elmnt, file, xhttp;
+    z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+      elmnt = z[i];
+      file = elmnt.getAttribute("include-html");
+      if (file) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4) {
+            if (this.status == 200) { elmnt.innerHTML = this.responseText; }
+            if (this.status == 404) { elmnt.innerHTML = "Page not found."; }
+            elmnt.removeAttribute("include-html");
+            includeHTML();
+          }
+        }
+        xhttp.open("GET", file, true);
+        xhttp.send();
+        return;
+      }
+    }
+  }
+</script>
+
+<div include-html="./includes/header.html"></div>
+
+<body style="margin:0">
+  <div include-html="./includes/navigation.html"></div>
+  <main class="main">
+    <div class="container bg">
+      <div class="scrollingBg1">
+      </div>
+      <div class="elements">
+        <!-- <div style="padding-top: 20px;">
+            <img src="./images/Wario2.gif" alt="Wario" height="200">
+            </div> -->
+        <div class="center featured">
+          <div id="featureGameName" class="outline" style="font-size: 30px;">
+            Wario TALK & GAMES
+          </div>
+          <span id="featureGame">
+            <iframe width="547" height="429"
+              src="https://firebasestorage.googleapis.com/v0/b/church-game.appspot.com/o/Games%2FWARIO%20TALK%20%26%20GAME.html?alt=media&token=5a5968e8-11dc-40d6-ae5b-0ef114437877"
+              allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen>
+            </iframe>
+          </span>
+          <div class="outline" style="font-size: 15px; text-align: left;">
+            Created by: <span id="featureGameCreator">Somedude234</span>
+          </div>
+        </div>
+
+        <br>
+
+        <iframe width="360" height="200" class="video"
+          src="https://www.youtube.com/embed/l5xQBU0GCBI?si=zXgL9Y214PpAMtDL&amp" title="Catholic Mario's Speech"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+        <iframe width="360" height="200" class="video"
+          src="https://www.youtube.com/embed/GTh5J0HsIAg?si=eRLaFyG5Qaa51ZVo&amp"
+          title="Morshu Reads out the entire Bible" frameborder="0" allowfullscreen>
+        </iframe>
+
+      </div>
+  </main>
+  <div include-html="./includes/footer.html"></div>
+</body>
+
+<script type="module" src="./importFirebase.js"></script>
+
+<script>
+  includeHTML();
+
+  const database = getDatabase();
+
+  const id = 'wariodance';
+  const featureGame = ref(database, '/Games/'+id+'name');
+  onValue(featureGame, (snapshot) => {
+    const data = snapshot.val();
+    document.getElementById("featureGameName").textContent = data;
+  });
+</script>
+
+</html>

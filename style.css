@@ -1,0 +1,186 @@
+@font-face { font-family: WarioWare; src: url('WarioWare.ttf'); } 
+@font-face { font-family: Retro; src: url('Retro.ttf'); } 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+h1,body{
+  font-family:'WarioWare';
+}
+.navigation{
+  position:fixed;
+  background-color: #fff596;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  display:block;
+  z-index: 10;
+}
+.logo{
+  height: 70px;
+}
+.logoText{
+  font-size: 30px;
+  padding-left: 10px;
+}
+.outline{
+  text-shadow:
+  -1px -1px 0 #ffffff,
+  1px -1px 0 #ffffff,
+  -1px 1px 0 #ffffff,
+  1px 1px 0 #ffffff;  
+}
+.main{
+  margin-top: 100px;
+  z-index: 5;
+}
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  unicode-bidi: isolate;
+  list-style-type: none;
+}
+.topElement{
+  float: left;
+  text-decoration: none;
+  top:auto;
+  bottom:auto
+}
+.container{
+  overflow: hidden;
+}
+.bg{
+  position:absolute;
+  display:inline;
+  width: 100%;
+}
+@keyframes wiggle {
+  0% {transform: rotate(0);}
+  25% {transform: rotate(-5deg);}
+  50% {transform: rotate(5deg);}
+  75% {transform: rotate(-2deg);}
+  100% {transform: rotate(0);}
+}
+@keyframes bgScroll {
+  0% {transform: translate(0,-32px);}
+  100% {transform: translate(-32px,0);}
+}
+@keyframes bgScroll2 {
+  0% {transform: translate(-128px,0);}
+  100% {transform: translate(0,0);}
+}
+.scrollingBg1{
+  position:fixed;
+  z-index: -5;
+  height: 110%;
+  width: 110%;
+  background: url("/images/warioPattern.webp") repeat;
+  animation: bgScroll 4s linear infinite;
+}
+.scrollingBg2{
+  position:fixed;
+  z-index: -5;
+  height: 100px;
+  width: 150%;
+  background: url("/images/orangePattern.webp") repeat;
+  animation: bgScroll2 16s linear infinite;
+}
+.footer{
+  position:fixed;
+  bottom:0;
+  display:block;
+  width: 100%;
+}
+.footerContent{
+  position:absolute;
+  bottom: 0;
+}
+.elements{
+  padding-top: 20px;
+  text-align: center;
+}
+.home{
+  color: inherit;
+}
+a img:hover{
+  opacity:0.85;
+  animation: wiggle 0.3s ease-in-out;
+}
+.ad{
+  position:fixed;
+  float: left;
+  padding: 10px;
+}
+.speechbubble{
+  width:200px
+}
+.video{ 
+  max-width:80%
+}
+.warioWIP{
+  pointer-events: none;
+  float:right; right:30px;
+}
+.widthAlive{
+  display:none
+}
+
+@media screen and (max-width: 450px) {
+  .widthKill {
+    display:none
+  }
+  .widthAlive {
+    display:block
+  }
+}
+.shadow{
+  position:fixed;
+  top: 100px;
+  width: 100%;
+  height: 100px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.142), rgba(0, 0, 0, 0));
+  pointer-events: none
+  
+}
+.featured{
+  display:inline-block;
+  border-radius: 30px;
+  background: url(/images/bigPattern.webp);
+  padding: 10px 30px;
+  margin-bottom: 20px;
+  border: 0, 10px;
+}
+a li :hover{
+  transition: 0.05s ease-out;
+  font-size: 32px;
+}
+.spoiler{
+  background-color: black;
+}
+.spoiler:hover{
+  transition: 0.2s;
+  background-color:rgba(0, 0, 0, 0);
+}
+.footerButton{
+  position: fixed;
+  left: 30px;
+  bottom: 50px;
+}
+#target{
+  transition: visibility 0.2s linear,opacity 0.3s linear;
+}
+.hidden{
+  display: none;
+}
+.footerButton{
+  padding: 5px;
+  font-family: Retro;
+  font-size: 15px;
+}
