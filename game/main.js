@@ -5,7 +5,8 @@ var Engine = Matter.Engine,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
     World = Matter.World,
-    Body = Matter.Body
+    Body = Matter.Body,
+    Events = Matter.Events
 
 const engine = Engine.create();
 
@@ -73,29 +74,55 @@ function addFruit(i) {
     return body;
 }
 
+Events.on(engine, "collisionStart", (event) => {
+    event.pairs.forEach((c) => {
+        if (c.bodyA.index == c.bodyB.index) {
+            const index = c.bodyA.index;
+            World.remove(world,[c.bodyA,c.bodyB]);
+            const newFruit = FRUITS[index+1];
+            const newBody = Bodies.circle(
+                c.collision.supports[0].x,
+                c.collision.supports[0].y,
+                newFruit.radius,
+                {
+                    index : index + 1,
+                    render : { sprite: {texture: `${newFruit.name}.png`}}
+                }
+            )
+
+            World.add(world, newBody);
+        }
+    })
+});
+
 addFruit(Math.floor(Math.random()*10))
 
-addEventListener("keydown", (event) => {});
+let keys = {
+    "horizontal": 0
+};
 
 onkeydown = (event) => {
-    if (disableAction)
-        return
     switch (event.code) {
         case "KeyA":
-            Body.setPosition(currentBody, {
-                x: currentBody.position.x - 10,
-                y: currentBody.position.y
-            })
+            keys["horizontal"] += 1;
             break;
         case "KeyD":
-            Body.setPosition(currentBody, {
-                x: currentBody.position.x + 10,
-                y: currentBody.position.y
-            })
+            keys["horizontal"] += -1;
             break;
         case "KeyS":
             placeFruit()
             disableAction = true;
+            break;
+    }
+};
+
+onkeyup = (event) => {
+    switch (event.code) {
+        case "KeyA":
+            keys["horizontal"] -= 1;
+            break;
+        case "KeyD":
+            keys["horizontal"] -= -1;
             break;
     }
 };
@@ -107,3 +134,13 @@ function placeFruit() {
         addFruit(Math.floor(Math.random()*10))
     }, 1000)
 }
+
+Events.on(Runner, "afterUpdate", () => {
+    if (disableAction)
+        return
+    Body.setPosition(currentBody, {
+        x: currentBody.position.x + keys["horizontal"] * 10,
+        y: currentBody.position.y
+    })
+    print(keys["horizontal"])
+})
