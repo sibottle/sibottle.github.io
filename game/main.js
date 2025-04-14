@@ -27,6 +27,8 @@ const world = engine.world;
 
 const topLine = Bodies.rectangle(310, 150, 620, 2, {
     isStatic: true,
+    name: "topLine",
+    isSensor: true,
     render: {fillStyle: "#e5d9ac"}
 })
 
@@ -45,7 +47,7 @@ const ground = Bodies.rectangle(310, 820, 620, 60, {
     render: {fillStyle: "#cc7e30"}
 })
 
-World.add(world, [leftWall, rightWall, ground]);
+World.add(world, [topLine,leftWall, rightWall, ground]);
 
 Render.run(render);
 Runner.run(engine);
@@ -92,24 +94,31 @@ Events.on(engine, "collisionStart", (event) => {
 
             World.add(world, newBody);
         }
+        if ((c.bodyA.name === "topLine" || c.bodyB.name === "topLine") && !disableAction) {
+            alert("Game Over");
+            disableAction = true;
+        }
     })
 });
 
 addFruit(Math.floor(Math.random()*10))
 
 let keys = {
-    "horizontal": 0
+    "a": false,
+    "d": false
 };
 
 onkeydown = (event) => {
     switch (event.code) {
         case "KeyA":
-            keys["horizontal"] += 1;
+            keys["a"] = true;
             break;
         case "KeyD":
-            keys["horizontal"] += -1;
+            keys["d"] = true;
             break;
         case "KeyS":
+            if (disableAction)
+                return
             placeFruit()
             disableAction = true;
             break;
@@ -119,10 +128,10 @@ onkeydown = (event) => {
 onkeyup = (event) => {
     switch (event.code) {
         case "KeyA":
-            keys["horizontal"] -= 1;
+            keys["a"] = false;
             break;
         case "KeyD":
-            keys["horizontal"] -= -1;
+            keys["d"] = false;
             break;
     }
 };
@@ -135,12 +144,23 @@ function placeFruit() {
     }, 1000)
 }
 
-Events.on(Runner, "afterUpdate", () => {
+Events.on(engine, "afterUpdate", () => {
     if (disableAction)
         return
     Body.setPosition(currentBody, {
-        x: currentBody.position.x + keys["horizontal"] * 10,
+        x: currentBody.position.x - ((keys["a"] - keys["d"]) * 3),
         y: currentBody.position.y
     })
-    print(keys["horizontal"])
+    if (currentBody.position.x + currentBody.radius > 590) {
+        Body.setPosition(currentBody, {
+            x: 590,
+            y: currentBody.position.y
+        })
+    }
+    if (currentBody.position.x - currentBody.radius < 30) {
+        Body.setPosition(currentBody, {
+            x: 30,
+            y: currentBody.position.y
+        })
+    }
 })
